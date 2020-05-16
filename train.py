@@ -148,7 +148,7 @@ def train(model, vocab, dataloader, scheduler, optim, updates):
         print('evaluating after %d epochs...' % epoch)
         # TODO: fix eval and print bleu, ppl
         score = eval(model, vocab, dataloader, epoch, updates)
-        print('Epoch: ',epoch, ',   Bleu sore: '+str(score), )
+        print('Epoch: ',epoch, ',   Bleu sore: '+str(score))
         scores.append(score)
         if score >= max_bleu:
             save_model(log_path + str(epoch) + '_' + str(updates) + '_' + str(score) + '_updates_checkpoint.pt', model, optim, updates)
@@ -281,7 +281,8 @@ def main():
         logging("Best bleu score: %.2f\n" % (max_bleu))
     else:
         assert args.restore is not None
-        eval(model, vocab, dataloader, 0, updates, do_test=False)
+        bleu = eval(model, vocab, dataloader, 0, updates, do_test=False)
+        print('Bleu sore: ', bleu)
 
 
 if __name__ == '__main__':

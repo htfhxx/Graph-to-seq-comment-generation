@@ -18,6 +18,34 @@ class seq2seq(nn.Module):
             self.embedding = pretrain['emb']
         else:
             self.embedding = nn.Embedding(self.vocab_size, config.emb_size)
+            if config.emb_file is not None:
+                print(len(vocab._word2id))
+                print('Loading embedding file: %s' % config.emb_file)
+                embeddings = np.random.randn(self.vocab_size, config.emb_size) * 0.01
+                pre_trained = 0
+                i = 0
+                #small = open('.data/music/small_embedding.txt', 'w')
+                count=0
+
+                #with open('data/music/small_embedding.txt', 'w') as small:
+                for line in open(config.emb_file, 'r',encoding='utf-8').readlines():
+                    # count+=1
+                    # if count%100000==0:
+                    #     print(count)
+                    sp = line.split()
+                    if (len(sp) == config.emb_size + 1) and sp[0] in set(vocab._id2word):
+                        pre_trained += 1
+                        embeddings[vocab._word2id[sp[0]]] = [float(x) for x in sp[1:]]
+                        #small.write(line)
+                    else:
+                        i += 1
+                        # print(sp[0])
+                #small.close()
+                print("Number of len(sp)!=301     :", i)
+                print('Pre-trained: %d (%.2f%%)' % (pre_trained, pre_trained * 100.0 / len(vocab._word2id)))
+                self.embedding.weight.data.copy_(torch.FloatTensor(embeddings))
+
+
         self.encoder = models.rnn_encoder(config, self.vocab_size, embedding=self.embedding)
         self.decoder = models.rnn_decoder(config, self.vocab_size, embedding=self.embedding)
         self.config = config

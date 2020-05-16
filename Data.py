@@ -17,7 +17,7 @@ EOS = 2
 UNK = 3
 MASK = 4
 TITLE = 5
-MAX_LENGTH = 100
+MAX_LENGTH = 300
 
 
 class Vocab:
@@ -35,7 +35,7 @@ class Vocab:
     @staticmethod
     def build_vocab(corpus_file, vocab_file):
         word2count = {}
-        for line in open(corpus_file):
+        for line in open(corpus_file,'r',encoding='utf-8'):
             line=line.replace(' ','')
             for word in line:
                 if word not in word2count:
@@ -49,7 +49,7 @@ class Vocab:
         write.close()
 
     def load_vocab(self, vocab_file, vocab_size):
-        for line in open(vocab_file):
+        for line in open(vocab_file,'r',encoding='utf-8'):
             term_ = line.strip().split('\t')
             if len(term_) != 2:
                 continue
@@ -205,7 +205,7 @@ class DataLoader:
 
     def read_json(self, filename,vocab):
         result = []
-        f=open(filename, "r").readlines()
+        f=open(filename, 'r', encoding='utf-8').readlines()
         print("len        ",len(f))
 
         for i in range(0,len(f),3):
