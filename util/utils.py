@@ -5,7 +5,7 @@ import yaml
 import time
 import numpy as np
 import nltk
-from nltk.translate import bleu_score
+#from nltk.translate import bleu_score
 
 
 class AttrDict(dict):
@@ -145,10 +145,10 @@ def write_result_to_file(examples, candidates, log_path):
     log_file = log_path + '/observe_result.tsv'
     with codecs.open(log_file, 'w', 'utf-8') as f:
         for e, cand in zip(examples, candidates):
-            f.write("".join(cand).strip() + '\t')
-            f.write("".join(e.ori_title).strip() + '\t')
+            f.write("".join(e.ori_source).strip() + '\n')
             # f.write(";".join(["".join(sent).strip() for sent in e.ori_content]) + '\t')
-            f.write("".join(e.ori_original_content).strip() + '\t')
+            f.write("".join(e.ori_target).strip() + '\n')
+            f.write("".join(cand).strip() + '\n')
             # f.write("$$".join(["".join(comment).strip() for comment in e.ori_targets]) + '\t')
             f.write("\n")
 

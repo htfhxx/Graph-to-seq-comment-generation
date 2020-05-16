@@ -3,7 +3,7 @@ import sys
 import numpy as np
 from collections import OrderedDict
 import gensim
-from nltk.tokenize.punkt import PunktSentenceTokenizer
+
 
 #reload(sys)
 #sys.setdefaultencoding('utf8')
@@ -18,10 +18,8 @@ def split_sentence(text, language):
     """
     if language == "Chinese":
         return split_chinese_sentence(text)
-    elif language == "English":
-        return split_english_sentence(text)
     else:
-        print("Currently only support Chinese and English.")
+        print("Currently only support Chinese")
 
 
 def split_chinese_sentence(text):
@@ -173,9 +171,6 @@ if __name__ == "__main__":
     for b in split_sentence(a, "Chinese"):
         print(b)
 
-    a = "Good morning! Let us start this lecture. What are you doing?"
-    for b in split_sentence(a, "English"):
-        print(b)
 
     text = "你 好 吗 老鼠"
     vocab = ["你", "好", "老鼠"]

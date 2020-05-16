@@ -30,10 +30,7 @@ class seq2seq(nn.Module):
         return models.cross_entropy_loss(hidden_outputs, targets, self.criterion)
 
     def forward(self, batch, use_cuda):
-        if self.use_content:
-            src, src_len, src_mask = batch.title_content, batch.title_content_len, batch.title_content_mask
-        else:
-            src, src_len, src_mask = batch.title, batch.title_len, batch.title_mask
+        src, src_len, src_mask = batch.src, batch.src_len, batch.src_mask
         tgt = batch.tgt
         if use_cuda:
             src, src_len, tgt, src_mask = src.cuda(), src_len.cuda(), tgt.cuda(), src_mask.cuda()
@@ -42,10 +39,12 @@ class seq2seq(nn.Module):
         return outputs
 
     def sample(self, batch, use_cuda):
-        if self.use_content:
-            src, src_len, src_mask = batch.title_content, batch.title_content_len, batch.title_content_mask
-        else:
-            src, src_len, src_mask = batch.title, batch.title_len, batch.title_mask
+        src, src_len, src_mask = batch.src, batch.src_len, batch.src_mask
+        # if self.use_content:
+        #     src, src_len, src_mask = batch.title_content, batch.title_content_len, batch.title_content_mask
+        # else:
+        #     src, src_len, src_mask = batch.title, batch.title_len, batch.title_mask
+
         if use_cuda:
             src, src_len, src_mask = src.cuda(), src_len.cuda(), src_mask.cuda()
         bos = torch.ones(src.size(0)).long().fill_(self.vocab.word2id('[START]'))
@@ -58,10 +57,11 @@ class seq2seq(nn.Module):
 
     # TODO: fix beam search
     def beam_sample(self, batch, use_cuda, beam_size=1):
-        if self.use_title:
-            src, src_len, src_mask = batch.title, batch.title_len, batch.title_mask
-        else:
-            src, src_len, src_mask = batch.ori_content, batch.ori_content_len, batch.ori_content_mask
+        src, src_len, src_mask = batch.src, batch.src_len, batch.src_mask
+        # if self.use_title:
+        #     src, src_len, src_mask = batch.title, batch.title_len, batch.title_mask
+        # else:
+        #     src, src_len, src_mask = batch.ori_content, batch.ori_content_len, batch.ori_content_mask
         if use_cuda:
             src, src_len, src_mask = src.cuda(), src_len.cuda(), src_mask.cuda()
         # beam_size = self.config.beam_size
@@ -104,11 +104,16 @@ class seq2seq(nn.Module):
                 inp = inp.cuda()
 
             # Run one step.
-            output, decState, attn = self.decoder.sample_one(inp, decState, contexts, src_mask)
+            output, decState, attn = self.decoder.sample_one(inp, decState, contexts)  #, src_mask)  ok ?
             # decOut: beam x rnn_size
 
             # (b) Compute a vector of batch*beam word scores.
-            output = unbottle(self.log_softmax(output, -1))
+
+            #output = unbottle(self.log_softmax(output, -1))   ok?
+            output = F.softmax(output, -1)
+            output = unbottle(torch.log(output))
+
+
             attn = unbottle(attn)
             # beam x tgt_vocab
 

@@ -22,8 +22,8 @@ class graph2seq(nn.Module):
         # self.encoder = models.GCN_Encoder(config, self.vocab_size, embedding=self.embedding)
         self.use_copy = use_copy
         self.use_bert = use_bert
-        if use_bert:
-            self.bert_encoder = models.bert.BERT(config.head_num, config.decoder_hidden_size, config.dropout,
+        #if use_bert:
+        self.bert_encoder = models.bert.BERT(config.head_num, config.decoder_hidden_size, config.dropout,
                                                  config.decoder_hidden_size, self.vocab_size, config.num_layers,
                                                  config.max_sentence_len)
         self.encoder = models.Memory_Network(config, self.vocab_size, word_level_model, graph_model,
@@ -65,8 +65,9 @@ class graph2seq(nn.Module):
             contexts.append(context)
             states.append(state)
         contexts = pad_sequence(contexts, batch_first=True)
-        if self.use_bert:
-            contexts, attn = self.bert_encoder.encode(contexts, concept_mask)
+        # if self.use_bert:
+        #     contexts, attn = self.bert_encoder.encode(contexts, concept_mask)
+        contexts, attn = self.bert_encoder.encode(contexts, concept_mask)
         state = torch.stack(states, 0)
         return contexts, state, attn
 
