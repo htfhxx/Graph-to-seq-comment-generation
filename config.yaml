@@ -4,7 +4,7 @@ vocab: 'data/music/vocab.txt'
 vocab_size: 60000
 type_num: 4
 head_num: 4
-log: './data/log/'
+log: 'data/log/'
 #emb_file: "/data/tfhuo/Tencent_AILab_ChineseEmbedding.txt"
 emb_file: "data/music/small_embedding.txt"
 epoch: 1000

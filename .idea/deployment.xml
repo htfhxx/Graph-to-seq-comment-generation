@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData">
+  <component name="PublishConfigData" autoUpload="Always" serverName="root@9.134.6.160:36000">
     <serverData>
-      <paths name="9.134.6.160">
+      <paths name="root@9.134.6.160:36000">
         <serverdata>
           <mappings>
-            <mapping deploy="/Graph-to-seq-comment-generation" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/Graph-to-seq-comment-generation" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
     </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
   </component>
 </project>

@@ -112,4 +112,10 @@ tgt = batch.tgt
 
 
 
+nohup python3 -u train.py   > myout2.file 2>&1 &
 
+
+
+# 数据处理
+# loss等于0 的是啥
+# gpu指定的问题（在gpu测试机上不能用呢还）

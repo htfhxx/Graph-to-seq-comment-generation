@@ -61,6 +61,8 @@ def format_time(t):
 def eval_multi_bleu(references, candidate, log_path):
     ref_1, ref_2, ref_3, ref_4 = [], [], [], []
     for refs, cand in zip(references, candidate):
+        if len(refs)<1:
+            continue
         ref_1.append(refs[0])
         if len(refs) > 1:
             ref_2.append(refs[1])

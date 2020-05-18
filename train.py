@@ -82,7 +82,7 @@ def set_up_logging():
     if not os.path.exists(config.log):
         os.mkdir(config.log)
     if args.log == '':
-        log_path = config.log + utils.format_time(time.localtime()) + '/'
+        log_path = config.log + utils.format_time(time.localtime()).replace(':','_') + '/'
     else:
         log_path = config.log + args.log + '/'
     if not os.path.exists(log_path):
@@ -116,7 +116,7 @@ def train(model, vocab, dataloader, scheduler, optim, updates):
 
         train_data = dataloader.train_batches
         length_batch=len(train_data)
-        print("Number of batch:   ",length_batch)
+        print("train: Number of batch:   ",length_batch)
 
         for batch in tqdm(train_data, disable=not args.verbose):
             model.zero_grad()
@@ -146,15 +146,14 @@ def train(model, vocab, dataloader, scheduler, optim, updates):
                 % (time.time() - start_time, epoch, updates, total_loss / length_batch,
                    total_acc / length_batch))
         print('evaluating after %d epochs...' % epoch)
+
         # TODO: fix eval and print bleu, ppl
         score = eval(model, vocab, dataloader, epoch, updates)
         print('Epoch: ',epoch, ',   Bleu sore: '+str(score))
         scores.append(score)
         if score >= max_bleu:
-            save_model(log_path + str(epoch) + '_' + str(updates) + '_' + str(score) + '_updates_checkpoint.pt', model, optim, updates)
+            save_model(log_path + 'save_'+str(epoch)+'_'+str(updates) +'_'+ str(score) + '_updates_checkpoint.pt', model, optim, updates)
             max_bleu = score
-        save_model(log_path + 'save_'+str(epoch)+'_'+str(updates) +'_'+ str(score) + '_updates_checkpoint.pt', model, optim, updates)
-
     return max_bleu
 
 
@@ -166,11 +165,15 @@ def eval(model, vocab, dataloader, epoch, updates, do_test=False):
     else:
         data_batches = dataloader.dev_batches
     i = 0
+    print("eval: Number of batch:   ",len(data_batches))
     for batch in tqdm(data_batches, disable=not args.verbose):
+        # i=i+1
+        # print(i)
         if len(args.gpus) > 1 or not args.beam_search:
             samples, alignment = model.sample(batch, use_cuda)
         else:
             samples, alignment = model.beam_sample(batch, use_cuda, beam_size=config.beam_size)
+
         '''
         if i == 0:
             print(batch.examples[27].ori_title)
@@ -185,6 +188,7 @@ def eval(model, vocab, dataloader, epoch, updates, do_test=False):
         source += [example for example in batch.examples]
         # reference += [example.ori_target for example in batch.examples]
         multi_ref += [example.ori_target for example in batch.examples]
+
     utils.write_result_to_file(source, candidate, log_path)
     #text_result, bleu = utils.eval_bleu(reference, candidate, log_path)
     multi_text_result, bleu = utils.eval_multi_bleu(multi_ref, candidate, log_path)
