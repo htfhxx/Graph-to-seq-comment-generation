@@ -60,6 +60,10 @@ class rnn_encoder(nn.Module):
         cal_length = torch.sum(mask, 1)
         assert all(cal_length.eq(lengths)), (input, lengths)
         length, indices = torch.sort(lengths, dim=0, descending=True)
+
+        #indices = indices.to(torch.int64)
+        input = input.to(torch.int64)
+        #RuntimeError: Expected tensor for argument #1 'indices' to have scalar type Long; but got torch.cuda.IntTensor instead (while checking arguments for embedding)
         _, ind = torch.sort(indices, dim=0)
         input_length = list(torch.unbind(length, dim=0))
         embs = pack(self.embedding(torch.index_select(input, dim=0, index=indices)), input_length, batch_first=True)
@@ -127,6 +131,8 @@ class rnn_decoder(nn.Module):
         self.config = config
 
     def forward(self, inputs, init_state, contexts=None):
+        inputs = inputs.to(torch.int64)
+        # RuntimeError: Expected tensor for argument #1 'indices' to have scalar type Long; but got torch.cuda.IntTensor instead (while checking arguments for embedding)
         embs = self.embedding(inputs)
         outputs, state, attns = [], init_state, []
         for emb in embs.split(1, dim=1):

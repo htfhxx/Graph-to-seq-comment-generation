@@ -25,8 +25,8 @@ class Vocab:
         self._word2id = {'[PADDING]': 0, '[START]': 1, '[END]': 2, '[OOV]': 3, '[MASK]': 4, '_TITLE_': 5}
         self._id2word = ['[PADDING]', '[START]', '[END]', '[OOV]', '[MASK]', '_TITLE_']
         self._wordcount = {'[PADDING]': 1, '[START]': 1, '[END]': 1, '[OOV]': 1, '[MASK]': 1, '_TITLE_': 1}
-        if not os.path.exists(vocab_file):
-            self.build_vocab(content_file, vocab_file)
+        #if not os.path.exists(vocab_file):
+        self.build_vocab(content_file, vocab_file)
         self.load_vocab(vocab_file, vocab_size)
         self.voc_size = len(self._word2id)
         self.UNK_token = 3
@@ -43,7 +43,7 @@ class Vocab:
                 word2count[word] += 1
         word2count = list(word2count.items())
         word2count.sort(key=lambda k: k[1], reverse=True)
-        write = open(vocab_file, 'w')
+        write = open(vocab_file, 'w',encoding='utf-8')
         for word_pair in word2count:
             write.write(word_pair[0] + '\t' + str(word_pair[1]) + '\n')
         write.close()
@@ -124,7 +124,6 @@ class Batch:
         max_len = MAX_LENGTH
         self.examples = example_list
 
-
         self.src_len = self.get_length([e.source for e in example_list], max_len)
         self.src, self.src_mask = self.padding(
             [e.source for e in example_list],
@@ -152,7 +151,6 @@ class Batch:
         self.tgt = torch.from_numpy(self.tgt)
         self.tgt_len = torch.from_numpy(np.array(self.tgt_len, dtype=np.long))
         self.tgt_mask = torch.from_numpy(np.array(self.tgt_mask, dtype=np.int32))
-
     @staticmethod
     def padding(batch, max_len, limit_length=True):
         if limit_length:
@@ -179,19 +177,57 @@ class DataLoader:
         self.vocab = vocab
         self.batch_size = batch_size
 
-        self.all_data = self.read_json(os.path.join(data_path, 'new_data.json'),vocab)
+        self.all_data = self.read_json(os.path.join(data_path, 'newnew_data.json'),vocab)
         # train_data  =[Example1, Example2, ...]
         # Example1 .source
-        # print(self.train_data[0].source)
-        # print(self.train_data[0].target)
-        # print(self.train_data[0].ori_source)
-        # print(self.train_data[0].ori_target) ['看', '见', '一', '个', '侏', '儒', '表', '演', '的', '，', '就', '跑', '来', '了']
+        # print('self.all_data[0].ori_source:  ',  self.all_data[0].ori_source)
+        # print('self.all_data[1].ori_source:  ', self.all_data[1].ori_source)
+        # print('self.all_data[2].ori_source:  ', self.all_data[2].ori_source)
+        # print('self.all_data[0].ori_target:  ',  self.all_data[0].ori_target)
+        # print('self.all_data[1].ori_target:  ', self.all_data[1].ori_target)
+        # print('self.all_data[2].ori_target:  ', self.all_data[2].ori_target)
+        #
+        # print('self.all_data[0].source:  ',  self.all_data[0].source)
+        # print('self.all_data[1].source:  ', self.all_data[1].source)
+        # print('self.all_data[2].source:  ', self.all_data[2].source)
+        #
+        # print('self.all_data[0].target:  ',  self.all_data[0].target)
+        # print('self.all_data[1].target:  ', self.all_data[1].target)
+        # print('self.all_data[2].target:  ', self.all_data[2].target)
         self.train_data, self.dev_data, self.test_data = self.split_data(self.all_data)
+        print('self.train_data[0].ori_source:  ',  self.train_data[0].ori_source)
+        print('self.train_data[1].ori_source:  ', self.train_data[1].ori_source)
+        print('self.train_data[2].ori_source:  ', self.train_data[2].ori_source)
+        print('self.dev_data[1].ori_source:  ', self.dev_data[1].ori_source)
+        print('self.test_data[2].ori_source:  ', self.test_data[2].ori_source)
+
+        print('self.train_data[0].ori_target:  ',  self.train_data[0].ori_target)
+        print('self.train_data[1].ori_target:  ', self.train_data[1].ori_target)
+        print('self.train_data[2].ori_target:  ', self.train_data[2].ori_target)
+        print('self.dev_data[1].ori_target:  ', self.dev_data[1].ori_target)
+        print('self.test_data[2].ori_target:  ', self.test_data[2].ori_target)
+
+        print('self.train_data[0].source:  ',  self.train_data[0].source)
+        print('self.train_data[1].source:  ', self.train_data[1].source)
+        print('self.train_data[2].source:  ', self.train_data[2].source)
+        print('self.dev_data[1].source:  ', self.dev_data[1].source)
+        print('self.test_data[2].source:  ', self.test_data[2].source)
+
+        print('self.train_data[0].target:  ',  self.train_data[0].target)
+        print('self.train_data[1].target:  ', self.train_data[1].target)
+        print('self.train_data[2].target:  ', self.train_data[2].target)
+        print('self.dev_data[1].target:  ', self.dev_data[1].target)
+        print('self.test_data[2].target:  ', self.test_data[2].target)
 
         self.train_batches = self.make_batch(self.train_data, batch_size)
         self.dev_batches = self.make_batch(self.dev_data, batch_size)
         self.test_batches = self.make_batch(self.test_data, batch_size)
-
+        # print('self.test_batches[0].src:  ', self.test_batches[0].src)
+        # print('self.test_batches[0].tgt:  ', self.test_batches[0].tgt)
+        # print('self.test_batches[1].src:  ', self.test_batches[1].src)
+        # print('self.test_batches[1].tgt:  ', self.test_batches[1].tgt)
+        # print('self.test_batches[2].src:  ', self.test_batches[2].src)
+        # print('self.test_batches[2].tgt:  ', self.test_batches[2].tgt)
 
         random.shuffle(self.train_batches)
 
@@ -205,14 +241,32 @@ class DataLoader:
 
     def read_json(self, filename,vocab):
         result = []
-        f=open(filename, 'r', encoding='utf-8').readlines()
-        print("len        ",len(f))
+        f=open(filename, 'r', encoding='utf-8').read()
+        data_list=f.split('\n\n')
 
-        for i in range(0,len(f),3):
-            if i==len(f)-1:
-                continue
-            source = f[i].strip('\n')
-            target = f[i+1].strip('\n')
+        #with open('data/data3.txt','w',encoding='utf-8') as f2:
+        for i in range(len(data_list)):
+            sample_list=data_list[i].split('\n')
+            # if i>500:
+            #     break
+            if len(sample_list) !=2:
+                #print(sample_list)
+                source = ''.join(sample_list[:-2])
+                target = sample_list[-1]
+                # print('source:   ',source)
+                # print('target:   ',target)
+            else:
+                source = sample_list[0]
+                try:
+                    target = sample_list[1]
+                except:
+                    continue
+            # print('source:   ',source)
+            # print('target:   ',target)
+            # f2.write('-------------------------------------------------\n')
+            # f2.write(source+'\n')
+            # f2.write(target+'\n')
+
             e = Example(source,target,vocab)
             result.append(e)
         return result

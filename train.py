@@ -34,11 +34,11 @@ def parse_args():
     parser.add_argument('-gpus', default=[], type=int,
                         help="Use CUDA on the listed devices.")
     parser.add_argument('-restore',
-                        type=str, default=None,
+                        type=str, default='data/log/2020-05-20-21_00_16/save_29_75748_0.0_updates_checkpoint.pt',
                         help="restore checkpoint")
     parser.add_argument('-seed', type=int, default=1234,
                         help="Random seed")
-    parser.add_argument('-notrain', default=False, action='store_true',
+    parser.add_argument('-notrain', default=True, action='store_true',
                         help="train or not")
     parser.add_argument('-log', default='', type=str,
                         help="log directory")
@@ -110,20 +110,33 @@ def train(model, vocab, dataloader, scheduler, optim, updates):
 
         if config.schedule:
             scheduler.step()
-            print("Decaying learning rate to %g" % scheduler.get_lr()[0])
+            logging("Decaying learning rate to %g\n" % scheduler.get_lr()[0])
 
         model.train()
 
         train_data = dataloader.train_batches
+        #print(dataloader.train_data)
+
         length_batch=len(train_data)
-        print("train: Number of batch:   ",length_batch)
+        logging("train: Number of batch:   "+str(length_batch)+'\n')
+        i=0
 
         for batch in tqdm(train_data, disable=not args.verbose):
+            i+=1
+            # if i>100:
+            #     break
             model.zero_grad()
+            # print('batch.src', batch.src)
+            # print('batch.tgt',batch.tgt)
+            # print('batch.src', batch.src)
+            # print('batch.tgt',batch.tgt)
             outputs = model(batch, use_cuda)
             target = batch.tgt
             if use_cuda:
                 target = target.cuda()
+            # print('-'*50)
+            # print(outputs.shape)
+            # print(target.shape)
             loss, acc = model.compute_loss(outputs.transpose(0, 1), target.transpose(0, 1)[1:])
             loss.backward()
             total_loss += loss.data.item()
@@ -134,7 +147,7 @@ def train(model, vocab, dataloader, scheduler, optim, updates):
             total_acc += acc
             optim.step()
             updates += 1  # 进行了一次更新
-            logging("training batches_______ time: %6.3f, epoch: %3d, updates: %8d, batch loss: %6.3f, train acc: %.3f"
+            logging("training batches_______ time: %6.3f, epoch: %3d, updates: %8d, batch loss: %6.3f, train acc: %.3f\n"
                     % (time.time() - start_time, epoch, updates, loss.data.item(), acc))
 
 
@@ -142,19 +155,21 @@ def train(model, vocab, dataloader, scheduler, optim, updates):
         # 一个epoch之后判断是否得到最好的结果
                 # logging中记录的是每次更新时的epoch，time，updates，correct等基本信息.
                 # 还有score分数的信息
-        logging("Finished an epoch ______time: %6.3f, epoch: %3d, updates: %8d, train loss: %6.3f, train acc: %.3f"
+        logging("Finished an epoch ______time: %6.3f, epoch: %3d, updates: %8d, train loss: %6.3f, train acc: %.3f\n"
                 % (time.time() - start_time, epoch, updates, total_loss / length_batch,
                    total_acc / length_batch))
-        print('evaluating after %d epochs...' % epoch)
+        logging('evaluating after %d epochs...' % epoch)
 
         # TODO: fix eval and print bleu, ppl
         score = eval(model, vocab, dataloader, epoch, updates)
-        print('Epoch: ',epoch, ',   Bleu sore: '+str(score))
+        logging('Epoch: '+str(epoch) + ',   Bleu sore: '+str(score))
         scores.append(score)
-        if score >= max_bleu:
-            save_model(log_path + 'save_'+str(epoch)+'_'+str(updates) +'_'+ str(score) + '_updates_checkpoint.pt', model, optim, updates)
-            max_bleu = score
+        save_model(log_path + 'save_' +str(epoch)+'_'+str(updates) +'_'+ str(score) + '_updates_checkpoint.pt', model, optim, updates)
+        max_bleu = score
     return max_bleu
+
+
+
 
 
 def eval(model, vocab, dataloader, epoch, updates, do_test=False):
@@ -165,10 +180,14 @@ def eval(model, vocab, dataloader, epoch, updates, do_test=False):
     else:
         data_batches = dataloader.dev_batches
     i = 0
-    print("eval: Number of batch:   ",len(data_batches))
+    logging("eval: Number of batch:   "+str(len(data_batches)))
     for batch in tqdm(data_batches, disable=not args.verbose):
-        # i=i+1
-        # print(i)
+        i=i+1
+        # if i>100:
+        #     break
+        #print(i)
+        # print('batch.src', batch.src)
+        # print('batch.tgt',batch.tgt)
         if len(args.gpus) > 1 or not args.beam_search:
             samples, alignment = model.sample(batch, use_cuda)
         else:
@@ -193,10 +212,9 @@ def eval(model, vocab, dataloader, epoch, updates, do_test=False):
     #text_result, bleu = utils.eval_bleu(reference, candidate, log_path)
     multi_text_result, bleu = utils.eval_multi_bleu(multi_ref, candidate, log_path)
     logging_csv([epoch, updates, multi_text_result])
-    print(multi_text_result, flush=True)
+    #logging(multi_text_result, flush=True)
     #print(text_result, flush=True)
     return bleu
-
 
 def save_model(path, model, optim, updates):
     '''保存的模型是一个字典的形式, 有model, config, optim, updates.'''
@@ -219,25 +237,25 @@ def main():
 
     # checkpoint
     if args.restore:  # 存储已有模型的路径
-        print('loading checkpoint...\n')
-        checkpoints = torch.load(os.path.join(log_path, args.restore))
+        logging('loading checkpoint...!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n')
+        checkpoints = torch.load(args.restore)
 
     # Load data
-    print('loading data...\n')
-    contentfile = os.path.join(config.data, "new_data.json")
+    logging('loading data...\n')
+    contentfile = os.path.join(config.data, "newnew_data.json")
     vocab = Vocab(config.vocab, contentfile, config.vocab_size)
     #print(vocab._word2id)
     start_time = time.time()
 
     dataloader = DataLoader(config, config.data, config.batch_size, vocab,args.debug)
-    print("DATA loaded!")
-    print('loading time cost: %.3f' % (time.time() - start_time))
+    logging("DATA loaded!")
+    logging('loading time cost: %.3f' % (time.time() - start_time))
     # print(dataloader.train_batches[0].tgt)
     # print(dataloader.train_batches[0].tgt_len)
     # print(dataloader.train_batches[0].tgt_mask)
 
     # model
-    print('building model...\n')
+    logging('building model...\n')
     torch.backends.cudnn.benchmark = True
     # configure the model
     # Model and optimizer
@@ -245,6 +263,7 @@ def main():
 
     if args.restore:
         model.load_state_dict(checkpoints['model'])
+        logging('model loads the restore checkpoint...!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n')
     if use_cuda:
         model.cuda()
         # lm_model.cuda()
@@ -285,8 +304,47 @@ def main():
         logging("Best bleu score: %.2f\n" % (max_bleu))
     else:
         assert args.restore is not None
-        bleu = eval(model, vocab, dataloader, 0, updates, do_test=False)
-        print('Bleu sore: ', bleu)
+        model.eval()
+        multi_ref, reference, candidate, source, tags, alignments = [], [], [], [], [], []
+        data_batches = dataloader.test_batches
+        #data_batches = dataloader.dev_batches
+        i = 0
+        logging("eval: Number of batch:   "+str(len(data_batches)))
+        for batch in tqdm(data_batches, disable=not args.verbose):
+            i=i+1
+            # if i>100:
+            #     break
+            print(i)
+            if len(args.gpus) > 1 or not args.beam_search:
+                samples, alignment = model.sample(batch, use_cuda)
+            else:
+                samples, alignment = model.beam_sample(batch, use_cuda, beam_size=config.beam_size)
+
+            '''
+            if i == 0:
+                print(batch.examples[27].ori_title)
+                print(alignment.shape)
+                print([d for d in alignment.tolist()[27]])
+                return
+            '''
+            # print('-' * 50)
+            # print("batch.src:")
+            # print(batch.src)
+            # print("batch.tgt:")
+            # print(batch.tgt)
+            # print('\n')
+            # print("sample:")
+            # print(samples)
+            candidate += [vocab.id2sent(s) for s in samples]
+            source += [example for example in batch.examples]
+            # reference += [example.ori_target for example in batch.examples]
+            multi_ref += [example.ori_target for example in batch.examples]
+
+
+        utils.write_result_to_file(source, candidate, log_path)
+
+        # bleu = eval(model, vocab, dataloader, 0, updates, do_test=False)
+        # logging('Bleu sore: '+str(bleu))
 
 
 if __name__ == '__main__':

@@ -112,10 +112,15 @@ tgt = batch.tgt
 
 
 
-nohup python3 -u train.py   > myout2.file 2>&1 &
+nohup python3 -u train.py   > myout3.file 2>&1 &
 
-
+cat myout3.file | grep 'Finished an epoch'
 
 # 数据处理
 # loss等于0 的是啥
 # gpu指定的问题（在gpu测试机上不能用呢还）
+
+
+较为详细的预处理，取前三条热评：2020-05-20-21_00_16
+
+加入普通评论，取前三条相似度>0.7的：

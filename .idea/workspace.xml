@@ -32,7 +32,7 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/data/music" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -45,12 +45,13 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\tx_workspace\Graph-to-seq-comment-generation\data\music" />
       <recent name="D:\workspace\tx_workspace\Graph-to-seq-comment-generation\data" />
       <recent name="D:\workspace\tx_workspace\Graph-to-seq-comment-generation" />
       <recent name="D:\workspace\tx_workspace\Graph-to-seq-comment-generation\data\music" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.train">
+  <component name="RunManager" selected="Python.addcomments_load_data">
     <configuration name="Data" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Graph-to-seq-comment-generation" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -73,7 +74,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="seq2seq" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="addcomments_load_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Graph-to-seq-comment-generation" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -81,12 +82,56 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/models" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data/music" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/models/seq2seq.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/music/addcomments_load_data.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="load_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Graph-to-seq-comment-generation" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data/music" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/music/load_data.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="sort_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Graph-to-seq-comment-generation" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data/music" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/music/sort_data.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -119,9 +164,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.addcomments_load_data" />
+        <item itemvalue="Python.sort_data" />
         <item itemvalue="Python.train" />
-        <item itemvalue="Python.seq2seq" />
         <item itemvalue="Python.Data" />
+        <item itemvalue="Python.load_data" />
       </list>
     </recent_temporary>
   </component>
@@ -140,7 +187,8 @@
       <workItem from="1589267890242" duration="10845000" />
       <workItem from="1589348651715" duration="12688000" />
       <workItem from="1589423742257" duration="33937000" />
-      <workItem from="1589796713643" duration="12239000" />
+      <workItem from="1589796713643" duration="67004000" />
+      <workItem from="1590028030138" duration="21142000" />
     </task>
     <servers />
   </component>
@@ -148,38 +196,58 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="552" y="178" key="#Deployment" timestamp="1589809951687">
+    <state x="552" y="178" key="#Deployment" timestamp="1589872926058">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="178" key="#Deployment/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1589809951687" />
-    <state x="753" y="355" key="FileChooserDialogImpl" timestamp="1589804017669">
+    <state x="552" y="178" key="#Deployment/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1589872926058" />
+    <state x="753" y="355" key="FileChooserDialogImpl" timestamp="1589858513805">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="753" y="355" key="FileChooserDialogImpl/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1589804017669" />
-    <state width="1877" height="297" key="GridCell.Tab.0.bottom" timestamp="1589811245881">
+    <state x="753" y="355" key="FileChooserDialogImpl/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1589858513805" />
+    <state width="1877" height="199" key="GridCell.Tab.0.bottom" timestamp="1590056695522">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="297" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1589811245881" />
-    <state width="1877" height="297" key="GridCell.Tab.0.center" timestamp="1589811245881">
+    <state width="1877" height="199" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1590056695522" />
+    <state width="1877" height="199" key="GridCell.Tab.0.center" timestamp="1590056695521">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="297" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1589811245881" />
-    <state width="1877" height="297" key="GridCell.Tab.0.left" timestamp="1589811245880">
+    <state width="1877" height="199" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1590056695521" />
+    <state width="1877" height="199" key="GridCell.Tab.0.left" timestamp="1590056695520">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="297" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1589811245880" />
-    <state width="1877" height="297" key="GridCell.Tab.0.right" timestamp="1589811245881">
+    <state width="1877" height="199" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1590056695520" />
+    <state width="1877" height="199" key="GridCell.Tab.0.right" timestamp="1590056695522">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="297" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1589811245881" />
-    <state x="461" y="165" width="998" height="711" key="SettingsEditor" timestamp="1589810709017">
+    <state width="1877" height="199" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1590056695522" />
+    <state width="1877" height="455" key="GridCell.Tab.1.bottom" timestamp="1590051506812">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="461" y="165" width="998" height="711" key="SettingsEditor/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1589810709017" />
+    <state width="1877" height="455" key="GridCell.Tab.1.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1590051506812" />
+    <state width="1877" height="455" key="GridCell.Tab.1.center" timestamp="1590051506812">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="455" key="GridCell.Tab.1.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1590051506812" />
+    <state width="1877" height="455" key="GridCell.Tab.1.left" timestamp="1590051506812">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="455" key="GridCell.Tab.1.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1590051506812" />
+    <state width="1877" height="455" key="GridCell.Tab.1.right" timestamp="1590051506812">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="455" key="GridCell.Tab.1.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1590051506812" />
+    <state x="461" y="165" width="998" height="711" key="SettingsEditor" timestamp="1590049791256">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="165" width="998" height="711" key="SettingsEditor/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1590049791256" />
     <state x="992" y="321" key="ftp.server.browser" timestamp="1589809950095">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="992" y="321" key="ftp.server.browser/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1589809950095" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1589883831545">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1589883831545" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -189,12 +257,19 @@
           <line>1</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/preprocess.py</url>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Graph_to_seq_comment_generation$seq2seq.coverage" NAME="seq2seq Coverage Results" MODIFIED="1589809957857" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/models" />
-    <SUITE FILE_PATH="coverage/Graph_to_seq_comment_generation$train.coverage" NAME="train Coverage Results" MODIFIED="1589811245876" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Graph_to_seq_comment_generation$Data.coverage" NAME="Data Coverage Results" MODIFIED="1589618946476" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Graph_to_seq_comment_generation$train.coverage" NAME="train Coverage Results" MODIFIED="1590028726653" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Graph_to_seq_comment_generation$load_data.coverage" NAME="load_data Coverage Results" MODIFIED="1589886921328" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data/music" />
+    <SUITE FILE_PATH="coverage/Graph_to_seq_comment_generation$sort_data.coverage" NAME="sort_data Coverage Results" MODIFIED="1590042274817" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data/music" />
+    <SUITE FILE_PATH="coverage/Graph_to_seq_comment_generation$addcomments_load_data.coverage" NAME="addcomments_load_data Coverage Results" MODIFIED="1590056695514" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data/music" />
+    <SUITE FILE_PATH="coverage/Graph_to_seq_comment_generation$Data.coverage" NAME="Data Coverage Results" MODIFIED="1589976515457" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -24,14 +24,14 @@ class seq2seq(nn.Module):
                 embeddings = np.random.randn(self.vocab_size, config.emb_size) * 0.01
                 pre_trained = 0
                 i = 0
-                #small = open('.data/music/small_embedding.txt', 'w')
+                #small = open('data/music/small_embedding.txt', 'w')
                 count=0
 
                 #with open('data/music/small_embedding.txt', 'w') as small:
                 for line in open(config.emb_file, 'r',encoding='utf-8').readlines():
-                    # count+=1
-                    # if count%100000==0:
-                    #     print(count)
+                    count+=1
+                    if count%100000==0:
+                        print(count)
                     sp = line.split()
                     if (len(sp) == config.emb_size + 1) and sp[0] in set(vocab._id2word):
                         pre_trained += 1
@@ -39,7 +39,7 @@ class seq2seq(nn.Module):
                         #small.write(line)
                     else:
                         i += 1
-                        # print(sp[0])
+                            #print(sp[0])
                 #small.close()
                 print("Number of len(sp)!=301     :", i)
                 print('Pre-trained: %d (%.2f%%)' % (pre_trained, pre_trained * 100.0 / len(vocab._word2id)))
@@ -55,10 +55,19 @@ class seq2seq(nn.Module):
         self.tanh = nn.Tanh()
 
     def compute_loss(self, hidden_outputs, targets):
+
+        # print('-'*20)
+        # print('hidden_outputs.shape: ',hidden_outputs.shape)
+        # print('hidden_outputs: ', hidden_outputs)
+        # print('targets.shape: ', targets.shape)
+        # print('targets: ', targets)
         return models.cross_entropy_loss(hidden_outputs, targets, self.criterion)
 
     def forward(self, batch, use_cuda):
         src, src_len, src_mask = batch.src, batch.src_len, batch.src_mask
+        # print('src:',src[:3])
+        # print('src_len:',src_len[:3])
+        # print('src_mask:',src_mask[:3])
         tgt = batch.tgt
         if use_cuda:
             src, src_len, tgt, src_mask = src.cuda(), src_len.cuda(), tgt.cuda(), src_mask.cuda()
@@ -72,7 +81,6 @@ class seq2seq(nn.Module):
         #     src, src_len, src_mask = batch.title_content, batch.title_content_len, batch.title_content_mask
         # else:
         #     src, src_len, src_mask = batch.title, batch.title_len, batch.title_mask
-
         if use_cuda:
             src, src_len, src_mask = src.cuda(), src_len.cuda(), src_mask.cuda()
         bos = torch.ones(src.size(0)).long().fill_(self.vocab.word2id('[START]'))

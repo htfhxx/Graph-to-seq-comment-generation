@@ -42,6 +42,8 @@ def cross_entropy_loss(hidden_outputs, targets, criterion):
     outputs = hidden_outputs.contiguous().view(-1, hidden_outputs.size(2))
     targets = targets.contiguous().view(-1)
     # scores = decoder.compute_score(outputs)
+    targets = targets.to(torch.int64)
+    #RuntimeError: Expected object of scalar type Long but got scalar type Int for argument #2 'target' in call to _thnn_nll_loss_forward
     loss = criterion(outputs, targets)
     pred = outputs.max(dim=1)[1]
     num_correct = pred.data.eq(targets.data).masked_select(targets.ne(dict.PAD).data).sum()

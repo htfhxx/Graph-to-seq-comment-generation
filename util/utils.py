@@ -101,10 +101,14 @@ def eval_multi_bleu(references, candidate, log_path):
             f.write(" ".join(s).strip() + '\n')
 
     temp = log_path + "/result.txt"
-    command = "perl multi-bleu.perl " + ref_file_1 + " " + ref_file_2 + " " + ref_file_3 + " " + ref_file_4 + "<" + cand_file + "> " + temp
+    command = "perl multi-bleu.perl " + ref_file_1 + " " + ref_file_2 + " " + ref_file_3 + " " + ref_file_4 + " < " + cand_file + " >> " + temp
+    print('excecuting: ', command)
     os.system(command)
-    with open(temp) as ft:
+    ft =open(temp,'r')
+    ft.close()
+    with open(temp,'r') as ft:
         result = ft.read()
+    ft.close()
     os.remove(temp)
     try:
         bleu = float(result.split(',')[0][7:])
@@ -127,7 +131,8 @@ def eval_bleu(reference, candidate, log_path):
             f.write(" ".join(s).strip() + '\n')
 
     temp = log_path + "/result.txt"
-    command = "perl multi-bleu.perl " + ref_file + "<" + cand_file + "> " + temp
+    command = "perl multi-bleu.perl " + ref_file + " < " + cand_file + " > " + temp
+    print('excecuting: ',  command)
     os.system(command)
     with open(temp) as ft:
         result = ft.read()
