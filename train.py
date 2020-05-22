@@ -3,16 +3,11 @@ from __future__ import print_function
 
 import time
 import argparse
-import torch
-import torch.nn as nn
-from optims import Optim
+from util.optims import Optim
 import util
-from util import utils
-import lr_scheduler as L
+from util import utils, lr_scheduler as L
 from models import *
-from collections import OrderedDict
 from tqdm import tqdm
-import sys
 import os
 
 # parent_dir = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
@@ -25,7 +20,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='train.py')
     parser.add_argument('-beam_search', default=True, action='store_true',
                         help="beam_search")
-    parser.add_argument('-config', default='config.yaml', type=str,
+    parser.add_argument('-config', default='data/config.yaml', type=str,
                         help="config file")
     parser.add_argument('-model', default='seq2seq', type=str,
                         choices=['seq2seq', 'graph2seq', 'bow2seq', 'h_attention'])
@@ -33,12 +28,15 @@ def parse_args():
     #                     help="Use CUDA on the listed devices.")
     parser.add_argument('-gpus', default=[], type=int,
                         help="Use CUDA on the listed devices.")
+    # parser.add_argument('-restore',
+    #                     type=str, default='data/log/2020-05-20-21_00_16/save_98_255976_0.0_updates_checkpoint.pt',
+    #                     help="restore checkpoint")
     parser.add_argument('-restore',
-                        type=str, default='data/log/2020-05-20-21_00_16/save_29_75748_0.0_updates_checkpoint.pt',
+                        type=str, default='',
                         help="restore checkpoint")
     parser.add_argument('-seed', type=int, default=1234,
                         help="Random seed")
-    parser.add_argument('-notrain', default=True, action='store_true',
+    parser.add_argument('-notrain', default=False, action='store_true',
                         help="train or not")
     parser.add_argument('-log', default='', type=str,
                         help="log directory")

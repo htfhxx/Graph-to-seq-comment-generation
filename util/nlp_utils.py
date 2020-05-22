@@ -52,15 +52,15 @@ def split_chinese_sentence(text):
     return sents
 
 
-def split_english_sentence(text):
-    """
-    Segment a input English text into a list of sentences.
-    :param text: a segmented input string.
-    :return: a list of segmented sentences.
-    """
-    sentence_tokenizer = PunktSentenceTokenizer()
-    sentences = sentence_tokenizer.tokenize(text)
-    return sentences
+# def split_english_sentence(text):
+#     """
+#     Segment a input English text into a list of sentences.
+#     :param text: a segmented input string.
+#     :return: a list of segmented sentences.
+#     """
+#     sentence_tokenizer = PunktSentenceTokenizer()
+#     sentences = sentence_tokenizer.tokenize(text)
+#     return sentences
 
 
 def load_w2v(fin, type, vector_size):

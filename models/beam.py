@@ -1,5 +1,5 @@
 import torch
-import Data as dict
+from util import Data as dict
 
 
 class Beam(object):

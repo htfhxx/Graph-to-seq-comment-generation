@@ -1,8 +1,6 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-import models
-import Data as dict
+from util import Data as dict
 
 
 def criterion(tgt_vocab_size, use_cuda):

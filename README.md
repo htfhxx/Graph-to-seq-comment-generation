@@ -110,7 +110,8 @@ tgt = batch.tgt
 
 
 
-
+nohup python3 -u sort_data.py   > myout.file 2>&1 &
+31824
 
 nohup python3 -u train.py   > myout3.file 2>&1 &
 
@@ -123,4 +124,8 @@ cat myout3.file | grep 'Finished an epoch'
 
 较为详细的预处理，取前三条热评：2020-05-20-21_00_16
 
-加入普通评论，取前三条相似度>0.7的：
+加入普通评论，取前三条相似度>0.7的：   
+
+
+测试10： 2020-05-21-10_30_45
+测试30： 2020-05-21-10_38_48
